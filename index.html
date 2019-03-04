@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="./css/new.css">
+    <script type="text/javascript" src="jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="js/new.js"></script>
+    <title>hello</title>
+</head>
+<body>
+    <div class="bg_img">
+            <div class="threeD_gallery_wrap">
+                <div class="threeD_gallery_item left_hide"><img class="threeD_gallery_item_img" src="images/block.jpg"></div>
+
+                <div class="threeD_gallery_item gallery_left_hide"><img class="threeD_gallery_item_img" src="images/block.jpg"></div>
+                <div class="threeD_gallery_item gallery_left_middle"><img class="threeD_gallery_item_img" src="images/block.jpg"></div>
+                <div class="threeD_gallery_item front_side"><img  class="threeD_gallery_item_img" src="images/block.jpg"></div>
+                <div class="threeD_gallery_item gallery_right_middle"><img class="threeD_gallery_item_img" src="images/block.jpg"></div>
+                <div class="threeD_gallery_item gallery_right_hide"><img class="threeD_gallery_item_img" src="images/block.jpg"></div>
+
+                <div class="threeD_gallery_item right_hide"><img class="threeD_gallery_item_img" src="images/block.jpg"></div>
+            </div>
+            <a class="prev" href="javascript:;"></a><a class="next" href="javascript:;"></a>
+    </div>
+    <div id="inputbox" style="height: 50px;width: 100%;background: rgba(0,0,0,0.5);text-align: center;position: fixed;bottom: -50px;z-index: 5001;">
+        <input type="text" id="text" style="border: 1px solid silver;width: 50%;height: 70%;border-radius:6px">
+        <!--<button id="sentContent" style="border: 1px solid silver;height: 70%; border-radius: 6px">发送</button>-->
+        <!--<button id="Switch" style="border: 1px solid silver;height: 70%; border-radius: 6px">查看弹幕</button>-->
+    </div>
+</body>
+<script>
+        getAjax();
+        // $(".prev").bind("click",function () {
+        //     var positionOffset = center -4;
+        //     if(center>4){
+        //         clickLeft(positionOffset);
+        //         center = center - 1;
+        //     }else{
+        //         tanChu("这是第一张图片");
+        //         return false;
+        //     }
+        // });
+        $(".prev").bind("click",function () {
+            var positionOffset = center -4;
+            if(positionOffset<0) positionOffset+=webInfo.length;
+            clickLeft(positionOffset);
+            center = center - 1;
+            if (center<0) center+=webInfo.length;
+            if (getAjax()) getAjax();
+        });
+        $(".next").bind("click",function () {
+            var positionOffset = center + 4;
+            positionOffset = positionOffset%webInfo.length;
+            clickRight(positionOffset);
+            center = center + 1;
+            center = center%webInfo.length;
+            if (getAjax() != null) getAjax();
+        });
+        // $(".next").bind("click",function () {
+        //     var positionOffset = center +4;
+        //     if(center<parseInt(webInfo[0][0])-3){
+        //         clickRight(positionOffset);
+        //         center = center + 1;
+        //     }else{
+        //         tanChu("这是最后一张图片");
+        //         return false;
+        //     }
+        // });
+        var i = 1;
+        var t = 1;
+        $(document).keydown(function (e) {
+            var e = e || window.event;
+            if(i==1) {
+                if (e.keyCode == 32) {
+                    fillOutImg(center);
+                    i++;
+                }
+            }else{
+                if (e.keyCode == 32) {
+                    clickToSmallImg();
+                    i--;
+                }
+                if(t == 1) {
+                    if (e.keyCode == 13) {
+                        showInput();
+                        t++;
+                    }
+                }else{
+                    if (e.keyCode == 13) {
+                        inport($("#text").val());
+                        $("#text").val("");
+                        t--;
+                    }
+                }
+            }
+
+        });
+</script>
+</html>
